@@ -56,3 +56,33 @@ To load and preprocess the Q&A dataset, follow these steps:
 
    tokenized_datasets = dataset.map(preprocess_function, batched=True)
    ```
+
+# Hyperparameter Grid Search for LoRA Configurations
+
+This project includes a script to perform hyperparameter grid search for different LoRA configurations.
+
+## Running the Hyperparameter Grid Search
+
+To run the hyperparameter grid search, follow these steps:
+
+1. Install the necessary libraries:
+   ```bash
+   pip install torch transformers datasets peft
+   ```
+
+2. Run the hyperparameter search script:
+   ```bash
+   python src/hyperparameter_search.py
+   ```
+
+The script will fine-tune the model with different LoRA configurations and save the results for comparison.
+
+## Commands to Run in Terminal
+
+To run the hyperparameter grid search with specific configurations, use the following command:
+
+```bash
+python src/hyperparameter_search.py --model_name LLaMA-2-7B --dataset natural_questions --lora_r_values 8 16 32 64 128 --lora_alpha_values 16 32 64 128 256 --lora_dropout_values 0.05 0.1 --learning_rate 5e-4 --batch_size_values 4 8 --epoch_values 3 5 --precision_values FP16 BF16
+```
+
+This command will fine-tune the model with different LoRA configurations and save the results for comparison.
