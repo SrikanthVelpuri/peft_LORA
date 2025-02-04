@@ -54,6 +54,35 @@ To load and preprocess the Q&A dataset, follow these steps:
    tokenized_datasets = dataset.map(preprocess_function, batched=True)
    ```
 
+# Fine-tuning
+
+This project includes a script to fine-tune the model and log metrics such as training loss, validation loss, and accuracy for each combination of `r`, `alpha`, and `dropout`.
+
+## Running the Fine-tuning Script
+
+To run the fine-tuning script and log the metrics, follow these steps:
+
+1. Run the fine-tuning script:
+   ```python
+   from src.fine_tune import fine_tune_model
+   from transformers import AutoModelForCausalLM, AutoTokenizer
+   from datasets import load_dataset
+
+   model_name = "LLaMA-2-7B"  # or "GPT-3.5"
+   model = AutoModelForCausalLM.from_pretrained(model_name)
+   tokenizer = AutoTokenizer.from_pretrained(model_name)
+   dataset = load_dataset("natural_questions")
+
+   r_values = [1, 2, 3]
+   alpha_values = [0.1, 0.2, 0.3]
+   dropout_values = [0.1, 0.2, 0.3]
+
+   for r in r_values:
+       for alpha in alpha_values:
+           for dropout in dropout_values:
+               fine_tune_model(model, tokenizer, dataset, r, alpha, dropout)
+   ```
+
 # Evaluation
 
 This project includes an evaluation script to measure various metrics such as perplexity, BLEU/ROUGE scores, factfulness, memory consumption, and inference speed.

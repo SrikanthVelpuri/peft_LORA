@@ -63,3 +63,12 @@ def measure_inference_speed(model, dataset, tokenizer):
         total_time += (end_time - start_time)
     average_inference_time = total_time / len(dataset)
     return average_inference_time
+
+def log_training_loss(trainer):
+    return trainer.state.log_history[-1]['loss']
+
+def log_validation_loss(trainer):
+    return trainer.evaluate()['eval_loss']
+
+def log_accuracy(trainer):
+    return trainer.evaluate()['eval_accuracy']
