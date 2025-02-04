@@ -2,16 +2,18 @@
 
 This project uses a pre-trained LLM such as `LLaMA-2-7B` or `GPT-3.5`.
 
+## Installation
+
+To install the necessary libraries, run the following command:
+```bash
+pip install transformers datasets torch psutil
+```
+
 ## Loading the Pre-trained Model
 
 To load and use the pre-trained model, follow these steps:
 
-1. Install the necessary libraries:
-   ```bash
-   pip install transformers
-   ```
-
-2. Load the pre-trained model:
+1. Load the pre-trained model:
    ```python
    from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -28,19 +30,14 @@ This project uses the NaturalQuestions Q&A dataset.
 
 To load and preprocess the Q&A dataset, follow these steps:
 
-1. Install the necessary libraries:
-   ```bash
-   pip install datasets
-   ```
-
-2. Load the dataset:
+1. Load the dataset:
    ```python
    from datasets import load_dataset
 
    dataset = load_dataset("natural_questions")
    ```
 
-3. Preprocess and tokenize the dataset for generative fine-tuning:
+2. Preprocess and tokenize the dataset for generative fine-tuning:
    ```python
    def preprocess_function(examples):
        inputs = [q["question"] for q in examples["questions"]]
@@ -65,12 +62,7 @@ This project includes an evaluation script to measure various metrics such as pe
 
 To run the evaluation script and measure the metrics, follow these steps:
 
-1. Install the necessary libraries:
-   ```bash
-   pip install transformers datasets torch psutil
-   ```
-
-2. Run the evaluation script:
+1. Run the evaluation script:
    ```python
    from src.evaluation import evaluate_perplexity, calculate_bleu_rouge, evaluate_factfulness, measure_memory_usage, measure_inference_speed
    from transformers import AutoModelForCausalLM, AutoTokenizer
