@@ -4,6 +4,7 @@ from datasets import load_metric
 import time
 import psutil
 import os
+import matplotlib.pyplot as plt
 
 def evaluate_perplexity(model, dataset, tokenizer):
     model.eval()
@@ -72,3 +73,29 @@ def log_validation_loss(trainer):
 
 def log_accuracy(trainer):
     return trainer.evaluate()['eval_accuracy']
+
+def plot_rank_vs_metrics(rank, accuracy, memory_usage, hallucination_rate):
+    fig, ax1 = plt.subplots()
+
+    color = 'tab:blue'
+    ax1.set_xlabel('Rank')
+    ax1.set_ylabel('Accuracy', color=color)
+    ax1.plot(rank, accuracy, color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    ax2 = ax1.twinx()
+    color = 'tab:red'
+    ax2.set_ylabel('Memory Usage (GB)', color=color)
+    ax2.plot(rank, memory_usage, color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+
+    ax3 = ax1.twinx()
+    color = 'tab:green'
+    ax3.spines['right'].set_position(('outward', 60))
+    ax3.set_ylabel('Hallucination Rate (%)', color=color)
+    ax3.plot(rank, hallucination_rate, color=color)
+    ax3.tick_params(axis='y', labelcolor=color)
+
+    fig.tight_layout()
+    plt.title('Rank vs. Accuracy, Memory Usage, and Hallucination Rate')
+    plt.show()

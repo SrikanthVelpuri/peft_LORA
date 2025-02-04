@@ -2,6 +2,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingArguments
 from datasets import load_dataset
 import numpy as np
+from src.evaluation import measure_memory_usage, evaluate_factfulness, plot_rank_vs_metrics
 
 def fine_tune_model(model, tokenizer, dataset, r, alpha, dropout):
     # Preprocess the dataset
@@ -83,4 +84,18 @@ def fine_tune_model(model, tokenizer, dataset, r, alpha, dropout):
     for i, response in enumerate(top_responses):
         print(f"Response {i+1}: {response}")
 
+    # Log and plot metrics
+    rank = r
+    accuracy = metrics['eval_accuracy']
+    memory_usage = measure_memory_usage()
+    hallucination_rate = evaluate_factfulness(model, tokenized_datasets["validation"], tokenizer)
+    log_metrics(rank, accuracy, memory_usage, hallucination_rate)
+
     return model
+
+def log_metrics(rank, accuracy, memory_usage, hallucination_rate):
+    print(f"Rank: {rank}")
+    print(f"Accuracy: {accuracy}")
+    print(f"Memory Usage: {memory_usage} GB")
+    print(f"Hallucination Rate: {hallucination_rate}%")
+    plot_rank_vs_metrics([rank], [accuracy], [memory_usage], [hallucination_rate])
