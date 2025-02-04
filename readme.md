@@ -56,3 +56,94 @@ To load and preprocess the Q&A dataset, follow these steps:
 
    tokenized_datasets = dataset.map(preprocess_function, batched=True)
    ```
+
+# Evaluation
+
+This project includes an evaluation script to measure various metrics such as perplexity, BLEU/ROUGE scores, factfulness, memory consumption, and inference speed.
+
+## Running the Evaluation Script
+
+To run the evaluation script and measure the metrics, follow these steps:
+
+1. Install the necessary libraries:
+   ```bash
+   pip install transformers datasets torch psutil
+   ```
+
+2. Run the evaluation script:
+   ```python
+   from src.evaluation import evaluate_perplexity, calculate_bleu_rouge, evaluate_factfulness, measure_memory_usage, measure_inference_speed
+   from transformers import AutoModelForCausalLM, AutoTokenizer
+   from datasets import load_dataset
+
+   model_name = "LLaMA-2-7B"  # or "GPT-3.5"
+   model = AutoModelForCausalLM.from_pretrained(model_name)
+   tokenizer = AutoTokenizer.from_pretrained(model_name)
+   dataset = load_dataset("natural_questions")
+
+   perplexity = evaluate_perplexity(model, dataset, tokenizer)
+   bleu_score, rouge_score = calculate_bleu_rouge(model, dataset, tokenizer)
+   factfulness_percentage = evaluate_factfulness(model, dataset, tokenizer)
+   memory_usage_gb = measure_memory_usage()
+   inference_speed = measure_inference_speed(model, dataset, tokenizer)
+
+   print(f"Perplexity: {perplexity}")
+   print(f"BLEU Score: {bleu_score}")
+   print(f"ROUGE Score: {rouge_score}")
+   print(f"Factfulness: {factfulness_percentage}%")
+   print(f"Memory Usage: {memory_usage_gb} GB")
+   print(f"Inference Speed: {inference_speed} seconds per response")
+   ```
+
+## Example Graphs
+
+Below are example graphs for each parameter:
+
+### Perplexity
+
+![Perplexity](example_perplexity.png)
+
+### BLEU/ROUGE Scores
+
+![BLEU/ROUGE Scores](example_bleu_rouge.png)
+
+### Factfulness
+
+![Factfulness](example_factfulness.png)
+
+### Memory Consumption
+
+![Memory Consumption](example_memory_consumption.png)
+
+### Inference Speed
+
+![Inference Speed](example_inference_speed.png)
+
+## Generating Graphs
+
+To generate your own graphs for each parameter, follow these instructions:
+
+### Perplexity
+
+1. Log perplexity during training.
+2. Use a plotting library such as `matplotlib` to create a line graph of perplexity over training epochs.
+
+### BLEU/ROUGE Scores
+
+1. Calculate BLEU/ROUGE scores for model responses.
+2. Use a plotting library such as `matplotlib` to create bar charts comparing BLEU/ROUGE scores for different models or configurations.
+
+### Factfulness
+
+1. Evaluate the factfulness of model responses.
+2. Use a plotting library such as `matplotlib` to create a pie chart or bar graph showing the percentage of factually correct answers.
+
+### Memory Consumption
+
+1. Monitor GPU memory usage during inference.
+2. Use a plotting library such as `matplotlib` to create a bar chart comparing GPU memory usage for different models or configurations.
+
+### Inference Speed
+
+1. Measure the average inference time per response.
+2. Use a plotting library such as `matplotlib` to create a line graph of average inference time per response for different models or configurations.
