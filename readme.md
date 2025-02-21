@@ -56,7 +56,7 @@ To load and preprocess the Q&A dataset, follow these steps:
 
 # Fine-tuning
 
-This project includes a script to fine-tune the model and log metrics such as training loss, validation loss, and accuracy for each combination of `r`, `alpha`, and `dropout`.
+This project includes a script to fine-tune the model with adapters and log metrics such as training loss, validation loss, and accuracy for each combination of `r`, `alpha`, and `dropout`.
 
 ## Running the Fine-tuning Script
 

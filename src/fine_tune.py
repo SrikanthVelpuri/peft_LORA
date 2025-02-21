@@ -4,6 +4,9 @@ from datasets import load_dataset
 import numpy as np
 
 def fine_tune_model(model, tokenizer, dataset, r, alpha, dropout):
+    # Freeze the original model parameters
+    freeze_model_parameters(model)
+
     # Preprocess the dataset
     def preprocess_function(examples):
         inputs = [q["question"] for q in examples["questions"]]
@@ -84,3 +87,7 @@ def fine_tune_model(model, tokenizer, dataset, r, alpha, dropout):
         print(f"Response {i+1}: {response}")
 
     return model
+
+def freeze_model_parameters(model):
+    for param in model.parameters():
+        param.requires_grad = False
