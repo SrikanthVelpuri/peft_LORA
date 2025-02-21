@@ -5,7 +5,7 @@ import time
 import psutil
 import os
 
-def evaluate_perplexity(model, dataset, tokenizer):
+def evaluate_perplexity(model, dataset, tokenizer, use_case=None):
     model.eval()
     total_loss = 0
     for batch in dataset:
@@ -16,7 +16,7 @@ def evaluate_perplexity(model, dataset, tokenizer):
     perplexity = torch.exp(torch.tensor(total_loss / len(dataset)))
     return perplexity.item()
 
-def calculate_bleu_rouge(model, dataset, tokenizer):
+def calculate_bleu_rouge(model, dataset, tokenizer, use_case=None):
     bleu = load_metric('bleu')
     rouge = load_metric('rouge')
     model.eval()
@@ -32,7 +32,7 @@ def calculate_bleu_rouge(model, dataset, tokenizer):
     rouge_score = rouge.compute()
     return bleu_score, rouge_score
 
-def evaluate_factfulness(model, dataset, tokenizer):
+def evaluate_factfulness(model, dataset, tokenizer, use_case=None):
     factfulness = 0
     model.eval()
     for batch in dataset:
@@ -72,3 +72,19 @@ def log_validation_loss(trainer):
 
 def log_accuracy(trainer):
     return trainer.evaluate()['eval_accuracy']
+
+def conduct_human_evaluations(model, dataset, tokenizer, use_case=None):
+    model.eval()
+    human_evaluations = []
+    for batch in dataset:
+        inputs = tokenizer(batch['input'], return_tensors='pt')
+        with torch.no_grad():
+            outputs = model.generate(**inputs)
+        prediction = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        human_evaluations.append({
+            "input": batch['input'],
+            "prediction": prediction,
+            "reference": batch['reference'],
+            "use_case": use_case
+        })
+    return human_evaluations
