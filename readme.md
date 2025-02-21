@@ -168,3 +168,42 @@ To generate your own graphs for each parameter, follow these instructions:
 
 1. Measure the average inference time per response.
 2. Use a plotting library such as `matplotlib` to create a line graph of average inference time per response for different models or configurations.
+
+# Objectives for Fine-Tuning
+
+## Define Objectives
+
+1. Identify the use cases requiring fine-tuned prompts (e.g., customer support, content generation, coding assistance).
+2. Determine key evaluation metrics (e.g., perplexity, coherence, factual accuracy).
+
+# Data Collection & Preprocessing
+
+## Data Collection
+
+1. Gather datasets with diverse, high-quality prompts and responses.
+2. Perform data cleaning, formatting, and augmentation to improve training efficiency.
+3. Split data into training, validation, and test sets.
+
+# Fine-Tuning Process
+
+## Fine-Tuning Steps
+
+1. Load the pre-trained LLaMA model.
+2. Implement supervised fine-tuning using the curated dataset.
+3. Optimize hyperparameters (batch size, learning rate, training epochs) for best performance.
+
+# Evaluation & Testing
+
+## Evaluation Steps
+
+1. Run evaluations using benchmark datasets.
+2. Compare fine-tuned model responses against the base model.
+3. Conduct human evaluations to ensure improved user experience.
+
+# Deployment & Integration
+
+## Deployment Steps
+
+1. Package and deploy the fine-tuned model.
+2. Update inference pipelines and API endpoints.
+3. Monitor real-world performance and refine prompts iteratively.
